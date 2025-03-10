@@ -1,0 +1,89 @@
+services:
+  prod:
+    profiles:
+      - prod
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        POETRY_DEV_INSTALL: "false"
+    depends_on:
+      - postgres-prod
+    ports:
+      - "0.0.0.0:8889:8000"
+    environment:
+      - FOODLOG_BAK_PG_DSN=postgresql://foodlog:@postgres-prod:5432/foodlog
+    networks:
+      - foodlog_prod_net
+
+  dev:
+    profiles:
+      - dev
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        POETRY_DEV_INSTALL: "true"
+    depends_on:
+      - postgres-dev
+    ports:
+      - "8089:8000"
+    volumes:
+      - ./:/code
+
+    environment:
+      - FOODLOG_BAK_PG_DSN=postgresql://foodlog:foodlog123@postgres-dev:5432/foodlog_dev
+    networks:
+      - foodlog_dev_net
+
+  migrate-prod:
+    profiles:
+      - prod
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        POETRY_DEV_INSTALL: "false"
+    command: ["poetry", "run", "python", "manage.py", "migrate"]
+    depends_on:
+      - postgres-prod
+    environment:
+      - FOODLOG_BAK_PG_DSN=postgresql://foodlog:@postgres-prod:5432/foodlog
+    networks:
+      - foodlog_prod_net
+
+  postgres-prod:
+    image: postgres:17
+    profiles:
+      - prod
+    environment:
+      - POSTGRES_DB=foodlog
+      - POSTGRES_USER=foodlog
+      - POSTGRES_PASSWORD=
+    ports:
+      - "5446:5432"
+    networks:
+      - foodlog_prod_net
+    volumes:
+      - ./../../production/production_db/db:/var/lib/postgresql/data
+
+  postgres-dev:
+    image: postgres:17
+    profiles:
+      - dev
+    environment:
+      - POSTGRES_DB=foodlog_dev
+      - POSTGRES_USER=foodlog
+      - POSTGRES_PASSWORD=foodlog123
+    ports:
+      - "5445:5432"
+    networks:
+      - foodlog_dev_net
+    volumes:
+      - ./../_local_db/db:/var/lib/postgresql/data
+
+networks:
+  foodlog_prod_net:
+    driver: bridge
+  foodlog_dev_net:
+    driver: bridge

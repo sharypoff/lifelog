@@ -1,0 +1,10 @@
+{% extends "admin/change_form.html" %}
+
+{% block object-tools-items %}
+    {{ block.super }}
+    {% if original.id %}
+        <li>
+            <a class="addlink" href="{% url 'admin:foodlog_day_add' %}?copy_from={{ original.id }}">Add new Day with this as template</a>
+        </li>
+    {% endif %}
+{% endblock %}

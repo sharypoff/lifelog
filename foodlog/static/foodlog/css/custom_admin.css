@@ -1,0 +1,56 @@
+.fl-good-color {
+    color: #00AA00;
+    font-weight: bold;
+}
+.fl-bad-color {
+    color: #AA0000;
+}
+.fl-fraction-more-110-color, .fl-fraction-more-105-color, .fl-fraction-less-090-color, .fl-fraction-less-095-color {
+    padding: 1px;
+}
+.fl-fraction-more-110-color {
+    color: #ffffff;
+    background-color: #AA0000;
+}
+.fl-fraction-more-105-color {
+    color: #ac4500;
+}
+.fl-fraction-less-090-color {
+    color: #ffffff;
+    background-color: #0b34ad;
+}
+.fl-fraction-less-095-color {
+    color: #0b34ad;
+}
+
+.fl-meal-tr {
+    font-weight: bold;
+    color: #999999;
+    text-align: right;
+}
+.fl-meal-tr td:nth-child(1) {
+    text-align: left;
+}
+.fl-dish-tr {
+    font-style: italic;
+    text-align: right;
+}
+.fl-dish-tr td:nth-child(1) {
+    padding-left: 20px;
+    text-align: left;
+}
+.fl-dish-tr td:nth-child(2) {
+    font-weight: bold;
+}
+.fl-note-tr td span {
+    text-align: left;
+    font-style: italic;
+}
+.fl-takingpill-tr {
+    color: #999999;
+    text-align: left;
+}
+.fl-total-tr {
+    color: #999999;
+    text-align: right;
+}
